@@ -109,9 +109,20 @@ body {
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+#errorMsg {
+    color: white;
+    background-color: #ff4d4d; /* Rouge clair */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+    display: none; /* Caché par défaut */
+}
+
+@media screen and (max-width: 820px) {
     .container {
-        flex-direction: column;
+        flex-direction: column-reverse;
         width: 90%;
         height: auto;
     }
@@ -120,8 +131,15 @@ body {
         padding: 20px;
     }
 
+    .login-form h2 {
+        display: flex;
+        font-weight: 600;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
     .side-banner {
-        border-radius: 50px 50px 0 0;
+        border-radius: 0 0 30px 30px;
         padding: 20px;
     }
 
@@ -146,15 +164,4 @@ body {
         font-size: 14px;
         padding-left: 8px;
     }
-}
-
-#errorMsg {
-    color: white;
-    background-color: #ff4d4d; /* Rouge clair */
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 14px;
-    margin: 10px 0;
-    display: none; /* Caché par défaut */
 }
