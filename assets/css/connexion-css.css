@@ -147,3 +147,14 @@ body {
         padding-left: 8px;
     }
 }
+
+#errorMsg {
+    color: white;
+    background-color: #ff4d4d; /* Rouge clair */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+    display: none; /* Caché par défaut */
+}
