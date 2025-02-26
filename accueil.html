@@ -25,20 +25,18 @@
 <!-- Search Section -->
 <section class="search-section">
   <div class="search-container">
-    <div class="search-box">
-      <label for="searchGeneral"></label><input type="text" id="searchGeneral" placeholder="Rechercher par titre de poste ou par mot-clé">
-      <button id="searchButton" class="search-icon"><i class="fas fa-search"></i></button>
-    </div>
-    <div class="filter-container">
-      <div class="filter-box" id="contractTypeFilter">
-        <span>Type de contrat</span>
-        <i class="fas fa-chevron-right"></i>
+    <div class="search-group">
+      <div class="search-box">
+        <label for="searchGeneral"></label><input type="text" id="searchGeneral" placeholder="Rechercher par titre de poste ou par mot-clé">
+        <button id="searchButton" class="search-icon"><i class="fas fa-search"></i></button>
       </div>
-      <div class="filter-box" id="locationFilter">
-        <span>Localisation</span>
-        <i class="fas fa-chevron-right"></i>
+      <div class="filter-container">
+        <div class="filter-box" id="locationFilter">
+          <span>Localisation</span>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <button id="viewOffers" class="view-offers-btn">Voir nos offres</button>
       </div>
-      <button id="viewOffers" class="view-offers-btn">Voir nos offres</button>
     </div>
   </div>
 </section>
@@ -49,10 +47,6 @@
 
   <!-- Job Card -->
   <div class="job-card">
-    <div class="job-header">
-      <div class="job-category">T - Research & Development</div>
-      <div class="job-date">Publié le 25/1/2025</div>
-    </div>
     <div class="job-content">
       <div class="job-info">
         <div class="company-logo">
@@ -63,6 +57,7 @@
           <div class="job-meta">
             <div class="job-location"><i class="fas fa-map-marker-alt"></i> Chennai</div>
             <div class="job-contract"><i class="fas fa-file-contract"></i> Salarié - Contrat à Durée Indéterminée</div>
+            <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le 25/1/2025</div>
           </div>
           <p class="job-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in metus euismod, finibus massa a, tincidunt lorem.</p>
           <div class="job-skills">
@@ -84,10 +79,6 @@
 
   <!-- Job Card -->
   <div class="job-card">
-    <div class="job-header">
-      <div class="job-category">Z - Transverse</div>
-      <div class="job-date">Publié le 25/1/2025</div>
-    </div>
     <div class="job-content">
       <div class="job-info">
         <div class="company-logo">
@@ -98,6 +89,7 @@
           <div class="job-meta">
             <div class="job-location"><i class="fas fa-map-marker-alt"></i> Boulogne Billancourt</div>
             <div class="job-contract"><i class="fas fa-file-contract"></i> Apprenti/Doctorant (durée déterminée)</div>
+            <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le 25/1/2025</div>
           </div>
           <p class="job-description">Integer lacinia, nunc vel convallis lacinia, enim urna convallis magna, at commodo sem magna id nisi. Suspendisse pulvinar libero ac leo lobortis egestas.</p>
           <div class="job-skills">
@@ -119,10 +111,6 @@
 
   <!-- Job Card -->
   <div class="job-card">
-    <div class="job-header">
-      <div class="job-category">S - General Administration</div>
-      <div class="job-date">Publié le 25/1/2025</div>
-    </div>
     <div class="job-content">
       <div class="job-info">
         <div class="company-logo">
@@ -133,6 +121,7 @@
           <div class="job-meta">
             <div class="job-location"><i class="fas fa-map-marker-alt"></i> Guyancourt</div>
             <div class="job-contract"><i class="fas fa-file-contract"></i> Salarié - Contrat à Durée Indéterminée</div>
+            <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le 25/1/2025</div>
           </div>
           <p class="job-description">Mauris tincidunt quam ut lacus feugiat, ut volutpat enim varius. Nunc et sapien nec metus semper tincidunt at vel turpis.</p>
           <div class="job-skills">
@@ -154,10 +143,6 @@
 
   <!-- Additional Job Cards (repeat similar structure) -->
   <div class="job-card">
-    <div class="job-header">
-      <div class="job-category">M - Marketing</div>
-      <div class="job-date">Publié le 24/1/2025</div>
-    </div>
     <div class="job-content">
       <div class="job-info">
         <div class="company-logo">
@@ -168,6 +153,7 @@
           <div class="job-meta">
             <div class="job-location"><i class="fas fa-map-marker-alt"></i> Paris</div>
             <div class="job-contract"><i class="fas fa-file-contract"></i> Stage (6 mois)</div>
+            <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le 24/1/2025</div>
           </div>
           <p class="job-description">Etiam euismod libero sit amet nisl finibus, vel fermentum arcu aliquam. Suspendisse potenti.</p>
           <div class="job-skills">
@@ -188,10 +174,6 @@
   </div>
 
   <div class="job-card">
-    <div class="job-header">
-      <div class="job-category">D - Development</div>
-      <div class="job-date">Publié le 24/1/2025</div>
-    </div>
     <div class="job-content">
       <div class="job-info">
         <div class="company-logo">
@@ -202,6 +184,7 @@
           <div class="job-meta">
             <div class="job-location"><i class="fas fa-map-marker-alt"></i> Lyon</div>
             <div class="job-contract"><i class="fas fa-file-contract"></i> Salarié - Contrat à Durée Indéterminée</div>
+            <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le 24/1/2025</div>
           </div>
           <p class="job-description">Sed laoreet diam at metus eleifend, id tincidunt nisi vulputate. Nam varius lacus id nulla hendrerit, ac euismod odio laoreet.</p>
           <div class="job-skills">
