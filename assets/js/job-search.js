@@ -212,4 +212,42 @@ function filterJobs() {
     renderPagination();
 }
 
+//Màj nombre offres affichées
+function updateJobCount() {
+    const countElement = document.querySelector('.job-listings h2');
+    countElement.textContent = `${filteredJobs.length} sur ${allJobs.length} offres disponibles`;
+}
+
+
+// ========= Fonctions rendu =========
+
+//Offres sur page actu
+function renderJobs() {
+    const jobListings = document.querySelector('.job-listings');
+
+    //Suppr offres actu sauf titre et pagination
+    const titleElement = jobListings.querySelector('h2');
+    const paginationElement = jobListings.querySelector('.pagination');
+
+    jobListings.innerHTML = '';
+    jobListings.appendChild(titleElement);
+
+    //Calcul offre afficher page actu
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, filteredJobs.length);
+    const jobsToDisplay = filteredJobs.slice(startIndex, endIndex);
+
+    //Création + ajout carte offres
+    jobsToDisplay.forEach(job => {
+        jobListings.appendChild(createJobCard(job));
+    });
+
+    //Ajout pagination
+    if (paginationElement) {
+        jobListings.appendChild(paginationElement);
+    } else {
+        const newPagination = createPaginationElement();
+        jobListings.appendChild(newPagination);
+    }
+}
 
