@@ -329,7 +329,7 @@ function createJobCard(job) {
                 </div>
             </div>
             <div class="job-actions">
-                <a href="details.html?id=${job.id}" class="view-more-btn">Voir plus</a>
+                <a href="details.html?id=${job.id}" class="view-more-btn">Postuler</a>
             </div>
         </div>
     `;
