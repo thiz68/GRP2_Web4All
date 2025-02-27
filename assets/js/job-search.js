@@ -191,6 +191,25 @@ Code d'Appel API
 
 //Filtrage des offres en fonction de la recherche
 function filterJobs() {
+    const query = searchParams.query.toLowerCase();
+    const location = searchParams.location.toLowerCase();
+
+    filteredJobs = allJobs.filter(job => {
+       const matchesQuery = !query ||
+           job.title.toLowerCase().includes(query) ||
+           job.description.toLowerCase().includes(query) ||
+           job.skills.some(skill => skill.toLowerCase().includes(query));
+
+       const matchesLocation = !location ||
+           job.location.toLowerCase().includes(location);
+
+       return matchesQuery && matchesLocation;
+    });
+
+    currentPage = 1; //Réinitialiser à la première page après app filtre
+    updateJobCount();
+    renderJobs();
+    renderPagination();
 }
 
 
