@@ -439,3 +439,53 @@ function viewJobsDetails(jobId) {
     //A IMPLEMENTER : Redirection vers une page de détails
     window.location.href = `details.html?id=${jobId}`;
 }
+
+// ========= Gestion URL =========
+
+//Extraction paramètres URL
+function parseUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('query')) {
+        searchParams.query = urlParams.get('query');
+        document.getElementById('searchGeneral').value = searchParams.query;
+    }
+
+    if (urlParams.has('location')) {
+        searchParams.location = urlParams.get('location');
+        document.querySelector('.searchLocation').value = searchParams.location;
+    }
+
+    if (urlParams.has('page')) {
+        currentPage = parseInt(urlParams.get('page')) || 1;
+    }
+
+    //Si paramètres, alors recherche
+    if (searchParams.query || searchParams.location) {
+        filterJobs();
+    }
+}
+
+//Màj URL avec params
+function updateUrlParams() {
+    const urlParams = new URLSearchParams();
+
+    if (searchParams.query) {
+        urlParams.set('query', searchParams.query);
+    }
+
+    if (searchParams.location) {
+        urlParams.set('location', searchParams.location);
+    }
+
+    if (currentPage > 1) {
+        urlParams.set('page', currentPage);
+    }
+
+    const newUrl = urlParams.toString()
+    ? `${window.location.pathname}?${urlParams.toString()}`
+        : window.location.pathname;
+
+    //Màj URL sans recharger la page
+    window.history.pushState({path: newUrl }, '', newUrl);
+}
