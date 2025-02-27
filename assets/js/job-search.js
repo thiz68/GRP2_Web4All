@@ -134,3 +134,38 @@ const mockJobs = [
         logo: ""
     }
 ];
+
+// ========= Fonction d'Initialisation =========
+
+//Init chargement page
+document.addEventListener("DOMContentLoaded", function() {
+    //Charger les données (sim)
+    fetchJobs();
+
+    //EventListeners
+    setupEventListeners();
+
+    //Params URL (si partage de lien)
+    parseUrlParams();
+});
+
+//Config EventListeners
+function setupEventListeners() {
+    //EventListener Recherche
+    document.getElementById('searchButton').addEventListener('click', handleSearch);
+    document.getElementById('searchGeneral').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleSearch();
+    });
+
+    //EventListener Localisation
+    document.getElementById('location-icon').addEventListener('click', handleSearch);
+    document.querySelector('.searchLocation').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleSearch();
+    });
+
+    //Bouton "Voir nos offres"
+    document.getElementById('viewOffers').addEventListener('click', handleSearch);
+
+    //Navigation de pagination
+    document.querySelector('.pagination').addEventListener('click', handlePagination);
+}
