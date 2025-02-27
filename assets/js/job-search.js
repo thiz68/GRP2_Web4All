@@ -432,7 +432,7 @@ function handlePagination(e) {
 }
 
 //Affichage détails offre
-function viewJobsDetails(jobId) {
+function viewJobDetails(jobId) {
     //A IMPLEMENTER : Redirection vers la page de détails ou affichage modal
     console.log(`Voir détails de l'offre ${jobId}`);
 
@@ -488,4 +488,79 @@ function updateUrlParams() {
 
     //Màj URL sans recharger la page
     window.history.pushState({path: newUrl }, '', newUrl);
+}
+
+// ========= A IMPLEMENTER : Interaction API =========
+
+//Récupération offres depuis API
+async function fetchJobsFromAPI(params = {}) {
+    try {
+        //Construction URL avec params
+        const queryParams = new URLSearchParams();
+        if (params.query) queryParams.set('query', params.query);
+        if (params.location) queryParams.set('location', params.location);
+        if (params.page) queryParams.set('page', params.page);
+
+        const apiUrl = `/api/jobs?${queryParams.toString()}`;
+
+        //Affichage indicateur chargement
+        showLoadingState();
+
+        //Appel API
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`Erreur : ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        //Màj données
+        allJobs = data.jobs || [];
+        filteredJobs = [...allJobs];
+
+        //Màj affichage
+        updateJobCount();
+        renderJobs();
+        renderPagination();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des offres : ", error);
+        showErrorMessage("Impossible de charger les offres. Veuillez réessayer plus tard.");
+    } finally {
+        //Masquage indicateur chargement
+        hideLoadingState();
+    }
+}
+
+//Affichage indicateur chargement
+function showLoadingState() {
+    //Création et affichage chargement
+    const loadingElement = document.getElementById('div');
+    loadingElement.className = 'loading-indicator'
+    loadingElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...\''
+
+    document.querySelector('.job-listings').appendChild(loadingElement);
+}
+
+//Masquage l'indicateur de chargement
+function hideLoadingState() {
+    //Suppression indicateur chargement
+    const loadingElement = document.querySelector('.loading-indicator');
+    if (loadingElement) {
+        loadingElement.remove();
+    }
+}
+
+//Affichage message erreur
+function showErrorMessage(message) {
+    const errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    errorElement.textContent = message;
+
+    document.querySelector('.job-listings').appendChild(errorElement);
+
+    // Masquer le message après 5 secondes
+    setTimeout(() => {
+        errorElement.remove();
+    }, 5000);
 }
