@@ -415,6 +415,30 @@ body {
     margin: 0 0.5rem;
 }
 
+/* Indicateur de chargement */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    color: var(--dark-gray);
+}
+
+.loading-indicator i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Message d'erreur */
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    text-align: center;
+}
+
 /* Footer Styles */
 .footer {
     background-color: var(--white);
