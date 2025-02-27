@@ -382,3 +382,60 @@ function renderPagination() {
     nextButton.setAttribute('data-page', 'next');
     pagination.appendChild(nextButton);
 }
+
+// ========= Gestionnaires d'événements =========
+
+//Gestion recherche et filtrage
+function handleSearch() {
+    searchParams.query = document.getElementById('searchGeneral').value.trim();
+    searchParams.location = document.querySelector('.searchLocation').value.trim();
+
+    //Màj URL paramètres de recherche
+    updateUrlParams();
+
+    //Filtrage offres
+    filterJobs();
+}
+
+//Gestion navigation pagination
+function handlePagination(e) {
+    e.preventDefault();
+
+    if (e.target.closest('a')) {
+        const pageElement = e.target.closest('a');
+        const page = pageElement.getAttribute('data-page');
+
+        if (page === 'prev') {
+            if (currentPage > 1) {
+                currentPage--;
+            }
+        } else if (page === 'next') {
+            const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+            }
+        } else  {
+            currentPage = parseInt(page);
+        }
+
+        //Màj URL
+        searchParams.page = currentPage;
+        updateUrlParams();
+
+        //Màj affichage
+        renderJobs();
+        renderPagination();
+
+        //Défilage vers le haut
+        document.querySelector('.job-listings').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+//Affichage détails offre
+function viewJobsDetails(jobId) {
+    //A IMPLEMENTER : Redirection vers la page de détails ou affichage modal
+    console.log(`Voir détails de l'offre ${jobId}`);
+
+    //A IMPLEMENTER : Redirection vers une page de détails
+    window.location.href = `details.html?id=${jobId}`;
+}
