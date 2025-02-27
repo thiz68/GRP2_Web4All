@@ -314,7 +314,7 @@ function renderPagination() {
     const prevButton = document.createElement('a');
     prevButton.href = '#';
     prevButton.className = 'prev-page';
-    prevButton.innterHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
     prevButton.setAttribute('data-page', 'prev');
     pagination.appendChild(prevButton);
 
