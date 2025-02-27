@@ -38,6 +38,11 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.navbar.hidden {
+    transform: translateY(-100%);
 }
 
 .nav-left, .nav-right {
@@ -439,6 +444,36 @@ body {
     text-align: center;
 }
 
+/* Bouton de retour en haut de page */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+    z-index: 999;
+}
+
+.back-to-top:hover {
+    background-color: var(--primary-dark);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* Footer Styles */
 .footer {
     background-color: var(--white);
@@ -467,6 +502,11 @@ body {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+    .search-box input,
+    .filter-box .searchLocation {
+        font-size: 1.0rem;
+    }
+
     .search-group {
         flex-direction: column;
     }
@@ -477,6 +517,15 @@ body {
 
     .search-box {
         width: 100%;
+    }
+
+    .job-content {
+        flex-direction: column;
+    }
+
+    .job-actions {
+        margin-top: 1rem;
+        align-self: flex-end;
     }
 }
 
@@ -499,5 +548,19 @@ body {
     .company-logo {
         margin-bottom: 1rem;
         margin-right: 0;
+    }
+
+    .nav-link,
+    .search-icon,
+    .location-icon,
+    .view-offers-btn,
+    .page-number,
+    .prev-page,
+    .next-page {
+        padding: 12px; /* Plus de surface pour le tap */
+    }
+
+    .job-meta {
+        gap: 1rem;
     }
 }
