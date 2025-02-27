@@ -8,6 +8,8 @@ let searchParams = {
     location: '',
     page: 1
 };
+let lastScrollPosition = window.pageYOffset;
+let scrollThreshold = 100;
 
 //DONNEES DE TEST - SIMULATION D'UNE API
 const mockJobs = [
@@ -167,6 +169,15 @@ function setupEventListeners() {
 
     //Navigation de pagination
     document.querySelector('.pagination').addEventListener('click', handlePagination);
+
+    //Gestion scroll
+    window.addEventListener('scroll', handleScroll);
+
+    createBackToTopButton();
+
+    //Sécu données utilisateur
+    document.getElementById('searchGeneral').addEventListener('input', sanitizeInput);
+    document.querySelector('.searchLocation').addEventListener('input', sanitizeInput);
 }
 
 // ========= Fonctions Gestion Données =========
@@ -250,6 +261,35 @@ function renderJobs() {
         jobListings.appendChild(newPagination);
     }
 }
+//Fonction nettoyage entrées utilisateur
+function sanitizeInput(e) {
+    //Récup valeur actuelle
+    let value = e.target.value;
+
+    //Suppression balises HTML et script
+    value = value.replace(/<[^>]*>/g, '');
+
+    //Echapper les caractères spéciaux
+    value = value.replace(/[&<>"']/g, function(m) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[m];
+    });
+
+    //Limitation longueur
+    if (value.length > 100) {
+        value = value.substring(0, 100);
+    }
+
+    //Màj valeur
+    if (value !== e.target.value) {
+        e.target.value = value;
+    }
+}
 
 //Création carte offre
 function createJobCard(job) {
@@ -257,25 +297,33 @@ function createJobCard(job) {
     jobCard.className = 'job-card';
     jobCard.setAttribute('data-job-id', job.id);
 
+    // Échapper les données pour éviter les attaques XSS
+    const safeTitle = escapeHtml(job.title);
+    const safeLocation = escapeHtml(job.location);
+    const safeContract = escapeHtml(job.contract);
+    const safeDate = escapeHtml(job.date);
+    const safeDescription = escapeHtml(job.description);
+    const safeSalary = escapeHtml(job.salary);
+
     jobCard.innerHTML = `
         <div class="job-content">
             <div class="job-info">
                 <div class="company-logo">
-                    <img src="${job.logo}" alt="Logo entreprise">
+                    <img src="${job.logo || 'assets/images/default-logo.png'}" alt="Logo entreprise" onerror="this.src='assets/images/default-logo.png'">
                 </div>
                 <div class="job-details">
-                    <h3 class="job-title">${job.title}</h3>
+                    <h3 class="job-title">${safeTitle}</h3>
                     <div class="job-meta">
-                        <div class="job-location"><i class="fas fa-map-marker-alt"></i> ${job.location}</div>
-                        <div class="job-contract"><i class="fas fa-file-contract"></i> ${job.contract}</div>
-                        <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le ${job.date}</div>
+                        <div class="job-location"><i class="fas fa-map-marker-alt"></i> ${safeLocation}</div>
+                        <div class="job-contract"><i class="fas fa-file-contract"></i> ${safeContract}</div>
+                        <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le ${safeDate}</div>
                     </div>
-                    <p class="job-description">${job.description}</p>
+                    <p class="job-description">${safeDescription}</p>
                     <div class="job-skills">
-                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        ${job.skills.map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('')}
                     </div>
                     <div class="job-additional">
-                        <span class="job-salary"><i class="fas fa-euro-sign"></i> ${job.salary}</span>
+                        <span class="job-salary"><i class="fas fa-euro-sign"></i> ${safeSalary}</span>
                         <span class="job-applicants"><i class="fas fa-users"></i> ${job.applicants} candidats</span>
                     </div>
                 </div>
@@ -287,12 +335,26 @@ function createJobCard(job) {
     `;
 
     //EventListener "VoirPlus"
-    jobCard.querySelector('.view-more-btn').addEventListener('click', function(e) {
+    const viewMoreBtn = jobCard.querySelector('.view-more-btn');
+    viewMoreBtn.addEventListener('click', function(e) {
         e.preventDefault();
         viewJobDetails(job.id);
     });
 
     return jobCard;
+}
+
+// Fonction pour échapper le HTML
+function escapeHtml(unsafe) {
+    if (typeof unsafe !== 'string') {
+        return '';
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 //Element pagination
@@ -447,20 +509,22 @@ function parseUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has('query')) {
-        searchParams.query = urlParams.get('query');
+        searchParams.query = urlParams.get('query').slice(0, 100);
         document.getElementById('searchGeneral').value = searchParams.query;
     }
 
     if (urlParams.has('location')) {
-        searchParams.location = urlParams.get('location');
+        searchParams.location = urlParams.get('location').slice(0, 100);
         document.querySelector('.searchLocation').value = searchParams.location;
     }
 
     if (urlParams.has('page')) {
-        currentPage = parseInt(urlParams.get('page')) || 1;
+        const pageParam = parseInt(urlParams.get('page')) || 1;
+        // Validation pour éviter les valeurs négatives ou trop grandes
+        currentPage = Math.max(1, Math.min(pageParam, 1000));
     }
 
-    //Si paramètres, alors recherche
+    // Si paramètres, alors recherche
     if (searchParams.query || searchParams.location) {
         filterJobs();
     }
@@ -471,23 +535,72 @@ function updateUrlParams() {
     const urlParams = new URLSearchParams();
 
     if (searchParams.query) {
-        urlParams.set('query', searchParams.query);
+        // Limiter la longueur et nettoyer la chaîne
+        const safeQuery = searchParams.query.slice(0, 100);
+        urlParams.set('query', safeQuery);
     }
 
     if (searchParams.location) {
-        urlParams.set('location', searchParams.location);
+        // Limiter la longueur et nettoyer la chaîne
+        const safeLocation = searchParams.location.slice(0, 100);
+        urlParams.set('location', safeLocation);
     }
 
     if (currentPage > 1) {
-        urlParams.set('page', currentPage);
+        // S'assurer que la page est un nombre valide
+        const safePage = Number.isInteger(currentPage) ? currentPage : 1;
+        urlParams.set('page', safePage);
     }
 
     const newUrl = urlParams.toString()
-    ? `${window.location.pathname}?${urlParams.toString()}`
+        ? `${window.location.pathname}?${urlParams.toString()}`
         : window.location.pathname;
 
-    //Màj URL sans recharger la page
-    window.history.pushState({path: newUrl }, '', newUrl);
+    // Mise à jour URL sans recharger la page
+    window.history.pushState({path: newUrl}, '', newUrl);
+}
+
+// ========= Gestion Scroll =========
+function handleScroll() {
+    const currentScrollPosition = window.pageYOffset;
+    const navbar = document.querySelector('.navbar');
+    const backToTop = document.querySelector('.back-to-top');
+
+    //Gestion navbar
+    if (currentScrollPosition > scrollThreshold) {
+        // Si on scroll vers le bas, on cache la navbar
+        if (currentScrollPosition > lastScrollPosition) {
+            navbar.classList.add('hidden');
+        } else {
+            // Si on scroll vers le haut, on affiche la navbar
+            navbar.classList.remove('hidden');
+        }
+    }
+
+    //Gestion BackToTop
+    if (currentScrollPosition > scrollThreshold * 2) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+
+    lastScrollPosition = currentScrollPosition;
+}
+
+// ========= Gestion BackToTop =========
+function createBackToTopButton() {
+    const backToTop = document.createElement('div');
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '<i class="fas fa-chevron-up"></i>';
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    document.body.appendChild(backToTop);
 }
 
 // ========= A IMPLEMENTER : Interaction API =========
