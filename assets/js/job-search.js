@@ -11,7 +11,7 @@ let searchParams = {
 
 //DONNEES DE TEST - SIMULATION D'UNE API
 const mockJobs = [
-    //5 emplois de test
+    //Emplois de test
     {
         id: 1,
         title: "Deputy Manager - BCM Team Lead",
@@ -72,7 +72,6 @@ const mockJobs = [
         applicants: 23,
         logo: ""
     },
-    // Emplois supplémentaires pour tester la pagination
     {
         id: 6,
         title: "Data Scientist Senior",
@@ -169,3 +168,29 @@ function setupEventListeners() {
     //Navigation de pagination
     document.querySelector('.pagination').addEventListener('click', handlePagination);
 }
+
+// ========= Fonctions Gestion Données =========
+
+//Sim récupération offres (remplacer par appel API)
+function fetchJobs() {
+    setTimeout(() => {
+        allJobs = [...mockJobs];
+        filteredJobs = [...allJobs];
+        updateJobCount();
+        renderJobs();
+        renderPagination();
+    }, 300);
+}
+
+/*
+A remplacer par :
+async function fetchJobsFromAPI(params = {}) {
+Code d'Appel API
+}
+*/
+
+//Filtrage des offres en fonction de la recherche
+function filterJobs() {
+}
+
+
