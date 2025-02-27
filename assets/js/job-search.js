@@ -295,3 +295,90 @@ function createJobCard(job) {
     return jobCard;
 }
 
+//Element pagination
+function createPaginationElement() {
+    const pagination = document.createElement("div");
+    pagination.className = 'pagination';
+
+    return pagination;
+}
+
+//Màj pagination
+function renderPagination() {
+    const pagination = document.querySelector('.pagination');
+    const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
+
+    pagination.innerHTML = '';
+
+    //Bouton précédent
+    const prevButton = document.createElement('a');
+    prevButton.href = '#';
+    prevButton.className = 'prev-page';
+    prevButton.innterHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.setAttribute('data-page', 'prev');
+    pagination.appendChild(prevButton);
+
+    //Génération num page
+    const maxVisiblePages = 5; //Nbre max pages affichage
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    //Ajustement si près fin
+    if (endPage - startPage + 1 < maxVisiblePages && startPage > 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    //Première page si autre conditions non remplies
+    if (startPage > 1) {
+        const firstPage = document.createElement('a');
+        firstPage.href = '#';
+        firstPage.className = 'page-number';
+        firstPage.textContent = '1';
+        firstPage.setAttribute('data-page', '1');
+        pagination.appendChild(firstPage);
+
+        //Ajout point de suspension si nécessaire
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'page-ellipsis';
+            ellipsis.textContent = '...';
+            firstPage.appendChild(ellipsis);
+        }
+    }
+
+    //Pages principales
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.href = '#';
+        pageLink.className = 'page-number' + (i === currentPage ? ' active' : '');
+        pageLink.textContent = i;
+        pageLink.setAttribute('data-page', i);
+        pagination.appendChild(pageLink);
+    }
+
+    //Dernière page si autre conditions non remplies
+    if (endPage < totalPages) {
+        //Ajout point de suspension
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'page-ellipsis';
+            ellipsis.textContent = '...';
+            pagination.appendChild(ellipsis);
+        }
+
+        const lastPage = document.createElement('a');
+        lastPage.href = '#';
+        lastPage.className = 'page-number';
+        lastPage.textContent = totalPages;
+        lastPage.setAttribute('data-page', totalPages);
+        pagination.appendChild(lastPage);
+    }
+
+    //Bouton suivant
+    const nextButton = document.createElement('a');
+    nextButton.href = '#';
+    nextButton.className = 'next-page';
+    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextButton.setAttribute('data-page', 'next');
+    pagination.appendChild(nextButton);
+}
