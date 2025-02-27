@@ -251,3 +251,47 @@ function renderJobs() {
     }
 }
 
+//Création carte offre
+function createJobCard(job) {
+    const jobCard = document.createElement("div");
+    jobCard.className = 'job-card';
+    jobCard.setAttribute('data-job-id', job.id);
+
+    jobCard.innerHTML = `
+        <div class="job-content">
+            <div class="job-info">
+                <div class="company-logo">
+                    <img src="${job.logo}" alt="Logo entreprise">
+                </div>
+                <div class="job-details">
+                    <h3 class="job-title">${job.title}</h3>
+                    <div class="job-meta">
+                        <div class="job-location"><i class="fas fa-map-marker-alt"></i> ${job.location}</div>
+                        <div class="job-contract"><i class="fas fa-file-contract"></i> ${job.contract}</div>
+                        <div class="job-date"><i class="fas fa-calendar-alt"></i> Publié le ${job.date}</div>
+                    </div>
+                    <p class="job-description">${job.description}</p>
+                    <div class="job-skills">
+                        ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div class="job-additional">
+                        <span class="job-salary"><i class="fas fa-euro-sign"></i> ${job.salary}</span>
+                        <span class="job-applicants"><i class="fas fa-users"></i> ${job.applicants} candidats</span>
+                    </div>
+                </div>
+            </div>
+            <div class="job-actions">
+                <a href="details.html?id=${job.id}" class="view-more-btn">Voir plus</a>
+            </div>
+        </div>
+    `;
+
+    //EventListener "VoirPlus"
+    jobCard.querySelector('.view-more-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        viewJobDetails(job.id);
+    });
+
+    return jobCard;
+}
+
