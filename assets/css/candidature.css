@@ -20,8 +20,15 @@
     box-sizing: border-box;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -132,6 +139,7 @@ body {
 
 /* Main Content */
 .main-content {
+    flex: 1;
     padding: 2rem 0;
 }
 
