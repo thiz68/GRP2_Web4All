@@ -1,9 +1,10 @@
-// Variables globales
+// ========= Variables globales =========
 let jobId = null;
 let lastScrollPosition = window.pageYOffset;
 let scrollThreshold = 100;
+let jobData = null;
 
-// Mocks pour simulations
+// ========= Mocks pour simulations =========
 const mockJobs = [
     {
         id: 1,
@@ -31,54 +32,29 @@ const mockJobs = [
         applicants: 8,
         logo: ""
     },
-    {
-        id: 3,
-        title: "Graduate Program Corporate Excellence: Immobilier et Services généraux",
-        company: "Real Estate Corp",
-        location: "Guyancourt",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "25/1/2025",
-        description: "Mauris tincidunt quam ut lacus feugiat, ut volutpat enim varius. Nunc et sapien nec metus semper tincidunt at vel turpis. Etiam euismod libero sit amet nisl finibus, vel fermentum arcu aliquam. Suspendisse potenti.<br><br>Sed laoreet diam at metus eleifend, id tincidunt nisi vulputate. Nam varius lacus id nulla hendrerit, ac euismod odio laoreet.<br><br>Profil recherché :<br>- Diplôme d'école de commerce ou d'ingénieur<br>- Forte capacité d'adaptation<br>- Excellente communication écrite et orale<br>- Esprit d'analyse et de synthèse",
-        skills: ["Immobilier", "Graduate Program", "Corporate", "Management", "Services Généraux"],
-        salary: "38000 - 42000 €/an",
-        applicants: 5,
-        logo: ""
-    },
-    {
-        id: 4,
-        title: "Chef de projet marketing digital (H/F)",
-        company: "Digital Agency",
-        location: "Paris",
-        contract: "Stage (6 mois)",
-        date: "24/1/2025",
-        description: "Etiam euismod libero sit amet nisl finibus, vel fermentum arcu aliquam. Suspendisse potenti. Sed laoreet diam at metus eleifend, id tincidunt nisi vulputate.<br><br>Nam varius lacus id nulla hendrerit, ac euismod odio laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br><br>Missions principales :<br>- Élaboration et suivi de campagnes marketing<br>- Analyse des performances<br>- Optimisation SEO/SEA<br>- Gestion des réseaux sociaux<br>- Coordination avec les équipes créatives",
-        skills: ["Marketing Digital", "SEO", "Réseaux Sociaux", "Analytics", "Gestion de projet"],
-        salary: "1100 €/mois",
-        applicants: 15,
-        logo: ""
-    },
-    {
-        id: 5,
-        title: "Développeur Full Stack JavaScript (H/F)",
-        company: "Tech Innovators",
-        location: "Lyon",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "24/1/2025",
-        description: "Sed laoreet diam at metus eleifend, id tincidunt nisi vulputate. Nam varius lacus id nulla hendrerit, ac euismod odio laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br><br>Curabitur in metus euismod, finibus massa a, tincidunt lorem. Maecenas tincidunt quam ut lacus feugiat, ut volutpat enim varius.<br><br>Compétences techniques requises :<br>- Maîtrise de JavaScript/TypeScript<br>- Expérience avec React et Node.js<br>- Connaissance des bases de données SQL et NoSQL<br>- Méthodologies Agile<br>- DevOps (CI/CD, Docker)",
-        skills: ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
-        salary: "45000 - 55000 €/an",
-        applicants: 23,
-        logo: ""
-    }
+    // Autres offres...
 ];
 
-// Initialisation au chargement de la page
+// ========= Fonction d'Initialisation =========
 document.addEventListener("DOMContentLoaded", function() {
-    // Vérification connexion utilisateur
-    // Note: Cette partie est commentée car elle serait gérée côté backend
-    // checkUserAuthentication();
-
     // Extraction ID de l'offre depuis l'URL
+    parseUrlParams();
+
+    // Configuration des écouteurs d'événements
+    setupEventListeners();
+
+    // Vérification connexion utilisateur
+    checkUserAuthentication();
+
+    // Chargement des détails de l'offre
+    fetchJobDetails(jobId);
+
+    // Création du bouton BackToTop
+    createBackToTopButton();
+});
+
+// ========= Fonctions parsing URL =========
+function parseUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     jobId = urlParams.get('id');
 
@@ -86,18 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
         showError("Aucune offre spécifiée.");
         return;
     }
+}
 
-    // Configuration des écouteurs d'événements
-    setupEventListeners();
-
-    // Chargement des détails de l'offre
-    loadJobDetails(jobId);
-
-    // Création du bouton BackToTop
-    createBackToTopButton();
-});
-
-// Configuration des écouteurs d'événements
+// ========= Configuration des écouteurs d'événements =========
 function setupEventListeners() {
     // Gestion du scroll
     window.addEventListener('scroll', handleScroll);
@@ -124,40 +91,43 @@ function setupEventListeners() {
     setInterval(validateForm, 500);
 }
 
-// Gestion du défilement pour cacher/afficher la navbar
+// ========= Gestion Scroll =========
 function handleScroll() {
-    const navbar = document.querySelector('.navbar');
     const currentScrollPosition = window.pageYOffset;
+    const navbar = document.querySelector('.navbar');
+    const backToTop = document.querySelector('.back-to-top');
 
-    // Affichage/masquage du bouton BackToTop
-    const backToTopButton = document.querySelector('.back-to-top');
-    if (backToTopButton) {
-        if (currentScrollPosition > 200) {
-            backToTopButton.classList.add('visible');
+    // Gestion navbar
+    if (currentScrollPosition > scrollThreshold) {
+        // Si on scroll vers le bas, on cache la navbar
+        if (currentScrollPosition > lastScrollPosition) {
+            if (navbar) navbar.classList.add('hidden');
         } else {
-            backToTopButton.classList.remove('visible');
+            // Si on scroll vers le haut, on affiche la navbar
+            if (navbar) navbar.classList.remove('hidden');
         }
     }
 
-    // Affichage/masquage de la navbar
-    if (navbar) {
-        if (currentScrollPosition > lastScrollPosition && currentScrollPosition > scrollThreshold) {
-            navbar.classList.add('hidden');
+    // Gestion BackToTop
+    if (backToTop) {
+        if (currentScrollPosition > scrollThreshold * 2) {
+            backToTop.classList.add('visible');
         } else {
-            navbar.classList.remove('hidden');
+            backToTop.classList.remove('visible');
         }
     }
 
     lastScrollPosition = currentScrollPosition;
 }
 
-// Création du bouton BackToTop
+// ========= Gestion BackToTop =========
 function createBackToTopButton() {
-    const backToTopButton = document.createElement('div');
-    backToTopButton.className = 'back-to-top';
-    backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    backToTopButton.addEventListener('click', scrollToTop);
-    document.body.appendChild(backToTopButton);
+    const backToTop = document.createElement('div');
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '<i class="fas fa-arrow-up"></i>';
+
+    backToTop.addEventListener('click', scrollToTop);
+    document.body.appendChild(backToTop);
 }
 
 // Fonction pour remonter en haut de la page
@@ -168,14 +138,22 @@ function scrollToTop() {
     });
 }
 
-// Chargement des détails de l'offre
-function loadJobDetails(jobId) {
-    // Affichage de l'indicateur de chargement
-    document.getElementById('loading-indicator').style.display = 'flex';
-    document.getElementById('job-details-container').style.display = 'none';
-    document.getElementById('error-container').style.display = 'none';
+// ========= Fonctions Gestion Données =========
 
-    // Simulation d'un appel API avec un délai artificiel
+// Récupération des détails de l'offre
+function fetchJobDetails(jobId) {
+    // Affichage de l'indicateur de chargement
+    showLoadingState();
+
+    // En environnement réel, utiliser cette fonction pour l'API
+    // fetchJobDetailsFromAPI(jobId);
+
+    // Simulation d'un appel API avec un délai artificiel pour dev
+    simulateFetchJobDetails(jobId);
+}
+
+// Simulation de récupération - À remplacer par appel API réel
+function simulateFetchJobDetails(jobId) {
     setTimeout(() => {
         try {
             // Recherche de l'offre dans les mocks
@@ -186,62 +164,187 @@ function loadJobDetails(jobId) {
                 return;
             }
 
-            // Mise à jour du fil d'Ariane
-            document.getElementById('breadcrumb-title').textContent = job.title;
+            // Stockage des données pour utilisation ultérieure
+            jobData = job;
 
-            // Mise à jour des détails de l'offre
-            document.getElementById('job-title').textContent = job.title;
-            document.getElementById('job-company').querySelector('span').textContent = job.company;
-            document.getElementById('job-location').querySelector('span').textContent = job.location;
-            document.getElementById('job-contract').querySelector('span').textContent = job.contract;
-            document.getElementById('job-date').querySelector('span').textContent = `Publié le ${job.date}`;
-            document.getElementById('job-description').innerHTML = job.description;
-
-            // Mise à jour des compétences
-            const skillsContainer = document.getElementById('job-skills');
-            skillsContainer.innerHTML = '';
-            job.skills.forEach(skill => {
-                const skillTag = document.createElement('span');
-                skillTag.className = 'skill-tag';
-                skillTag.textContent = skill;
-                skillsContainer.appendChild(skillTag);
-            });
-
-            // Mise à jour des informations complémentaires
-            document.getElementById('job-salary').textContent = job.salary || 'Non communiqué';
-            document.getElementById('job-applicants').textContent =
-                `${job.applicants} candidat${job.applicants > 1 ? 's' : ''}`;
-
-            // Mise à jour du logo de l'entreprise si disponible
-            const companyLogo = document.getElementById('company-logo');
-            if (job.logo && job.logo.trim() !== '') {
-                companyLogo.src = job.logo;
-            } else {
-                companyLogo.src = 'assets/images/default-logo.png';
-            }
-
-            // Affichage du conteneur de détails
-            document.getElementById('loading-indicator').style.display = 'none';
-            document.getElementById('job-details-container').style.display = 'block';
-            document.getElementById('application-form-section').style.display = 'block';
+            // Mise à jour de l'interface avec les données
+            renderJobDetails(job);
 
         } catch (error) {
             showError("Une erreur s'est produite lors du chargement des détails de l'offre.");
             console.error(error);
+        } finally {
+            hideLoadingState();
         }
     }, 800); // Délai simulé de 800ms
 }
 
+// ========= Fonctions à implémenter avec backend =========
+async function fetchJobDetailsFromAPI(jobId) {
+    try {
+        // Affichage indicateur chargement
+        showLoadingState();
+
+        // Construction URL API
+        const apiUrl = `/api/jobs/${jobId}`;
+
+        // Appel API
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`Erreur: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Stockage des données pour utilisation ultérieure
+        jobData = data;
+
+        // Mise à jour de l'interface avec les données
+        renderJobDetails(data);
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des détails de l'offre:", error);
+        showError("Impossible de charger les détails de l'offre. Veuillez réessayer plus tard.");
+    } finally {
+        hideLoadingState();
+    }
+}
+
+// Fonction pour soumettre la candidature à l'API
+async function submitApplicationToAPI(formData) {
+    try {
+        // Affichage état chargement
+        document.getElementById('application-form').style.opacity = '0.5';
+        document.getElementById('submit-application').disabled = true;
+        document.getElementById('submit-application').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+
+        // Construction URL API
+        const apiUrl = `/api/applications`;
+
+        // Appel API
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            body: formData,
+            // Pas de header Content-Type avec FormData, il est automatiquement défini
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Traitement de la réponse
+        if (data.success) {
+            // Cacher le formulaire et afficher le message de succès
+            document.getElementById('application-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'flex';
+        } else {
+            throw new Error(data.message || "Erreur lors de l'envoi de la candidature");
+        }
+
+    } catch (error) {
+        console.error("Erreur lors de l'envoi de la candidature:", error);
+        showApplicationError("Une erreur s'est produite lors de l'envoi de votre candidature. Veuillez réessayer plus tard.");
+    }
+}
+
+// ========= Fonctions rendu =========
+function renderJobDetails(job) {
+    // Sécurisation des données pour éviter XSS
+    const safeTitle = escapeHtml(job.title);
+    const safeCompany = escapeHtml(job.company);
+    const safeLocation = escapeHtml(job.location);
+    const safeContract = escapeHtml(job.contract);
+    const safeDate = escapeHtml(job.date);
+
+    // Mise à jour du fil d'Ariane
+    document.getElementById('breadcrumb-title').textContent = safeTitle;
+
+    // Mise à jour des détails de l'offre
+    document.getElementById('job-title').textContent = safeTitle;
+    document.getElementById('job-company').querySelector('span').textContent = safeCompany;
+    document.getElementById('job-location').querySelector('span').textContent = safeLocation;
+    document.getElementById('job-contract').querySelector('span').textContent = safeContract;
+    document.getElementById('job-date').querySelector('span').textContent = `Publié le ${safeDate}`;
+
+    // Pour la description, nous permettons certaines balises HTML contrôlées
+    // car elles sont nécessaires pour le formatage du texte
+    document.getElementById('job-description').innerHTML = job.description;
+
+    // Mise à jour des compétences avec échappement HTML
+    const skillsContainer = document.getElementById('job-skills');
+    skillsContainer.innerHTML = '';
+    job.skills.forEach(skill => {
+        const skillTag = document.createElement('span');
+        skillTag.className = 'skill-tag';
+        skillTag.textContent = skill; // textContent applique l'échappement
+        skillsContainer.appendChild(skillTag);
+    });
+
+    // Mise à jour des informations complémentaires
+    document.getElementById('job-salary').textContent = job.salary || 'Non communiqué';
+    document.getElementById('job-applicants').textContent = `${job.applicants} candidat${job.applicants > 1 ? 's' : ''}`;
+
+    // Mise à jour du logo de l'entreprise si disponible
+    const companyLogo = document.getElementById('company-logo');
+    if (job.logo && job.logo.trim() !== '') {
+        companyLogo.src = job.logo;
+    } else {
+        companyLogo.src = 'assets/images/default-logo.png';
+    }
+
+    // Affichage du conteneur de détails
+    document.getElementById('job-details-container').style.display = 'block';
+    document.getElementById('application-form-section').style.display = 'block';
+}
+
+// ========= Gestion des états d'affichage =========
+function showLoadingState() {
+    document.getElementById('loading-indicator').style.display = 'flex';
+    document.getElementById('job-details-container').style.display = 'none';
+    document.getElementById('error-container').style.display = 'none';
+    document.getElementById('application-form-section').style.display = 'none';
+}
+
+function hideLoadingState() {
+    document.getElementById('loading-indicator').style.display = 'none';
+}
+
 // Affichage d'un message d'erreur
 function showError(message) {
-    document.getElementById('loading-indicator').style.display = 'none';
+    hideLoadingState();
     document.getElementById('job-details-container').style.display = 'none';
+    document.getElementById('application-form-section').style.display = 'none';
 
     const errorContainer = document.getElementById('error-container');
     errorContainer.style.display = 'block';
     errorContainer.querySelector('p').textContent = message;
 }
 
+// Affichage d'une erreur de candidature
+function showApplicationError(message) {
+    const errorElement = document.createElement('div');
+    errorElement.className = 'application-error';
+    errorElement.textContent = message;
+
+    // Réinitialisation de l'état du bouton
+    document.getElementById('application-form').style.opacity = '1';
+    document.getElementById('submit-application').disabled = false;
+    document.getElementById('submit-application').innerHTML = 'Envoyer ma candidature';
+
+    // Ajout du message d'erreur au-dessus du bouton
+    const formActions = document.querySelector('.form-actions');
+    formActions.parentNode.insertBefore(errorElement, formActions);
+
+    // Masquer le message après 5 secondes
+    setTimeout(() => {
+        errorElement.remove();
+    }, 5000);
+}
+
+// ========= Gestion du formulaire de candidature =========
 // Mise à jour du compteur de caractères pour la lettre de motivation
 function updateCharacterCount() {
     const motivationLetter = document.getElementById('motivation-letter');
@@ -252,10 +355,10 @@ function updateCharacterCount() {
         charCount.textContent = currentLength;
 
         // Mise en surbrillance du compteur si proche de la limite
-        if (currentLength > 1800) {
-            charCount.style.color = '#e67e22'; // Orange
-        } else if (currentLength > 1950) {
+        if (currentLength > 1950) {
             charCount.style.color = '#c0392b'; // Rouge
+        } else if (currentLength > 1800) {
+            charCount.style.color = '#e67e22'; // Orange
         } else {
             charCount.style.color = ''; // Couleur par défaut
         }
@@ -347,15 +450,22 @@ function handleFormSubmit(event) {
         return; // Ne pas soumettre si les champs ne sont pas remplis
     }
 
-    // Simulation de l'envoi des données à l'API
-
-    // Dans un cas réel, nous utiliserions FormData et fetch/axios
+    // Préparation des données à envoyer
     const formData = new FormData();
     formData.append('jobId', jobId);
     formData.append('motivationLetter', motivationLetter);
     formData.append('resume', resumeFile);
     formData.append('applicationDate', new Date().toISOString());
 
+    // En environnement réel, utiliser cette fonction
+    // submitApplicationToAPI(formData);
+
+    // Simulation pour développement
+    simulateSubmitApplication(formData);
+}
+
+// Simulation d'envoi de candidature - À remplacer en production
+function simulateSubmitApplication(formData) {
     // Simulation d'un appel API avec délai artificiel
     document.getElementById('application-form').style.opacity = '0.5';
     document.getElementById('submit-application').disabled = true;
@@ -371,25 +481,33 @@ function handleFormSubmit(event) {
         console.log('Candidature soumise pour le poste ID:', jobId);
         console.log('Date de candidature:', new Date().toISOString());
         console.log('Lettre de motivation:', motivationLetter.substring(0, 50) + '...');
-        console.log('CV:', resumeFile.name);
-
-        // Dans un environnement réel, on pourrait rediriger l'utilisateur ou mettre à jour l'interface
+        console.log('CV:', formData.get('resume').name);
     }, 1500);
 }
 
-// Vérification de l'authentification de l'utilisateur (à implémenter avec backend)
+// ========= Sécurité =========
+// Vérification de l'authentification de l'utilisateur
 function checkUserAuthentication() {
     // Simulation - À implémenter avec une vérification réelle côté backend
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
+    // Dans une application réelle, cette vérification serait côté serveur
+    // Pour le moment, version simplifiée côté client pour le développement
     if (!isAuthenticated) {
-        // Redirection vers la page de connexion
-        window.location.href = 'connexion.html?redirect=' + encodeURIComponent(window.location.href);
+        // Option 1: Rediriger vers la page de connexion (désactivé pour le développement)
+        // window.location.href = 'connexion.html?redirect=' + encodeURIComponent(window.location.href);
+
+        // Option 2: Pour le développement, simuler connexion
+        console.log('Utilisateur non authentifié, connexion simulée pour test');
+        localStorage.setItem('isAuthenticated', 'true');
     }
 }
 
 // Fonction de sécurité pour échapper le HTML et prévenir les XSS
 function escapeHtml(unsafe) {
+    if (typeof unsafe !== 'string') {
+        return '';
+    }
     return unsafe
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
