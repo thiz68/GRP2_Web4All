@@ -112,6 +112,11 @@ body {
     left: 0;
 }
 
+.nav-link.pending {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
 .nav-button {
     background-color: var(--primary-color);
     color: var(--white);
