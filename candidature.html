@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-type" content="nosniff">
+    <meta http-equiv="x-ua-compatible" content="DENY">
+    <title>Web4All - Détail de l'offre</title>
+    <link rel="stylesheet" href="assets/css/candidature.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="accueil.html" class="nav-link">Accueil</a>
+        <a href="#" class="nav-link">Mentions légales</a>
+    </div>
+    <div class="nav-logo">
+        <h1>Web4All</h1>
+    </div>
+    <div class="nav-right">
+        <a href="#" class="nav-button">Mon compte</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="accueil.html">Accueil</a> <i class="fas fa-chevron-right"></i> <span id="breadcrumb-title">Détail de l'offre</span>
+        </div>
+
+        <!-- Job Details Section -->
+        <section class="job-details-section">
+            <div id="loading-indicator" class="loading-indicator">
+                <i class="fas fa-spinner fa-spin"></i> Chargement...
+            </div>
+
+            <div id="job-details-container" class="job-details-container" style="display: none;">
+                <div class="job-header">
+                    <div class="company-logo">
+                        <img id="company-logo" src="assets/images/default-logo.png" alt="Logo entreprise" onerror="this.src='assets/images/default-logo.png'">
+                    </div>
+                    <div class="job-title-container">
+                        <h1 id="job-title" class="job-title">Titre du poste</h1>
+                        <div class="job-meta">
+                            <div class="job-company" id="job-company">
+                                <i class="fas fa-building"></i> <span>Nom de l'entreprise</span>
+                            </div>
+                            <div class="job-location" id="job-location">
+                                <i class="fas fa-map-marker-alt"></i> <span>Localisation</span>
+                            </div>
+                            <div class="job-contract" id="job-contract">
+                                <i class="fas fa-file-contract"></i> <span>Type de contrat</span>
+                            </div>
+                            <div class="job-date" id="job-date">
+                                <i class="fas fa-calendar-alt"></i> <span>Publié le</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-body">
+                    <div class="job-info-container">
+                        <div class="job-section">
+                            <h2 class="section-title">Description du poste</h2>
+                            <div id="job-description" class="job-description">
+                                Chargement de la description...
+                            </div>
+                        </div>
+
+                        <div class="job-section">
+                            <h2 class="section-title">Compétences requises</h2>
+                            <div id="job-skills" class="job-skills">
+                                <!-- Skills will be added here -->
+                            </div>
+                        </div>
+
+                        <div class="job-section">
+                            <h2 class="section-title">Informations complémentaires</h2>
+                            <div class="job-additional">
+                                <div class="additional-item">
+                                    <i class="fas fa-euro-sign"></i>
+                                    <span>Base de rémunération: </span>
+                                    <span id="job-salary">Non communiqué</span>
+                                </div>
+                                <div class="additional-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Candidats: </span>
+                                    <span id="job-applicants">0 candidat(s)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error-container" class="error-container" style="display: none;">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Une erreur s'est produite lors du chargement de l'offre.</p>
+                    <a href="accueil.html" class="error-button">Retour à l'accueil</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form Section -->
+        <section id="application-form-section" class="application-form-section" style="display: none;">
+            <h2 class="section-title">Postuler à cette offre</h2>
+
+            <form id="application-form" class="application-form">
+                <div class="form-group">
+                    <label for="motivation-letter">Lettre de motivation</label>
+                    <div class="textarea-container">
+            <textarea
+                    id="motivation-letter"
+                    name="motivation-letter"
+                    rows="10"
+                    maxlength="2000"
+                    placeholder="Écrivez votre lettre de motivation ici..."
+                    required></textarea>
+                        <div class="character-count">
+                            <span id="char-count">0</span> / 2000 caractères
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resume-upload">CV (PDF ou DOCX, max 2MB)</label>
+                    <div class="file-upload-container">
+                        <input
+                                type="file"
+                                id="resume-upload"
+                                name="resume-upload"
+                                accept=".pdf,.docx,.doc"
+                                class="file-input"
+                                required>
+                        <label for="resume-upload" class="file-upload-label">
+                            <i class="fas fa-upload"></i> Sélectionner un fichier
+                        </label>
+                        <div id="file-name" class="file-name">Aucun fichier sélectionné</div>
+                        <div id="file-error" class="file-error"></div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="window.location.href='accueil.html'">Annuler</button>
+                    <button type="submit" id="submit-application" class="submit-btn" disabled>Postuler</button>
+                </div>
+            </form>
+
+            <div id="success-message" class="success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <h3>Candidature envoyée avec succès!</h3>
+                <p>Votre candidature a bien été enregistrée. Vous recevrez une confirmation par email.</p>
+                <button class="back-home-btn" onclick="window.location.href='accueil.html'">Retour à l'accueil</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h2>Web4All</h2>
+        </div>
+        <div class="footer-copyright">
+            <p>&copy; 2025 Web4All. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- BackToTop Button JS -->
+<script src="assets/js/candidature.js"></script>
+</body>
+</html>
