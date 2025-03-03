@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="nosniff">
+  <meta http-equiv="x-ua-compatible" content="DENY">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com; script-src 'self'; font-src 'self' https://cdnjs.cloudflare.com;"> -->
+  <title>Web4All - Fiches Étudiantes</title>
+  <link rel="stylesheet" href="assets/css/etudiant.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="#" class="nav-link active">Accueil</a>
+    <a href="#" class="nav-link">Mentions légales</a>
+  </div>
+  <div class="nav-logo">
+    <h1>Web4All</h1>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-button">Mon compte</a>
+  </div>
+</nav>
+
+<!-- Search Section -->
+<section class="search-section">
+  <div class="search-container">
+    <div class="search-group">
+      <div class="search-box">
+        <label for="searchGeneral" class="sr-only">Recherche par mots-clés</label>
+        <input type="text" id="searchGeneral" placeholder="Rechercher par titre de poste ou par mot-clé" maxlength="100">
+        <button id="searchButton" class="search-icon" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="filter-container">
+        <div class="filter-box" id="locationFilter">
+          <label for="searchLocation" class="sr-only">Recherche par localisation</label>
+          <input id="searchLocation" class="searchLocation" placeholder="Département, ville..." maxlength="100">
+          <button id="location-icon" class="location-icon" aria-label="Chercher par localisation"><i class="fas fa-location-dot"></i></button>
+        </div>
+        <button id="viewOffers" class="view-offers-btn">Voir nos profiles</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- job Listings -->
+<section class="stud-listings">
+  <h2>Chargement des offres...</h2>
+
+  <!-- Pagination -->
+  <div class="pagination" aria-label="Pagination">
+    <a href="#" class="prev-page" aria-label="Page précédente"><i class="fas fa-chevron-left"></i></a>
+    <a href="#" class="page-number active" aria-current="page">1</a>
+    <a href="#" class="page-number">2</a>
+    <a href="#" class="page-number">3</a>
+    <span class="page-ellipsis">...</span>
+    <a href="#" class="page-number">62</a>
+    <a href="#" class="next-page" aria-label="Page suivante"><i class="fas fa-chevron-right"></i></a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <h2>Web4All</h2>
+    </div>
+    <div class="footer-copyright">
+      <p>&copy; 2025 Web4All. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- BackToTop -->
+<script src="assets/js/etudiant.js"></script>
+</body>
+</html>
