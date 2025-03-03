@@ -2,7 +2,6 @@ let lastScrollPosition = window.pageYOffset;
 let scrollThreshold = 100;
 
 // ========= Fonction d'Initialisation =========
-
 // Init chargement page
 document.addEventListener("DOMContentLoaded", function() {
     // EventListeners
