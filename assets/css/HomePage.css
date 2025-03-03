@@ -60,7 +60,6 @@ h2{
         font-weight: bold;
     }
 }
-
 .zone a {
     flex: 1;
     text-decoration: none; /* Supprime le soulignement */

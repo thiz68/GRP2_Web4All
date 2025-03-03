@@ -39,6 +39,5 @@ function handleScroll() {
     } else {
         backToTop.classList.remove('visible');
     }
-
     lastScrollPosition = currentScrollPosition;
 }
