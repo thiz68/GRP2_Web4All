@@ -236,16 +236,6 @@ h2{
         width: 100%;
         justify-content: center;
     }
-
-    .job-info {
-        flex-direction: column;
-    }
-
-    .company-logo {
-        margin-bottom: 1rem;
-        margin-right: 0;
-    }
-
     .nav-link{
         padding: 12px; /* Plus de surface pour le tap */
     }
@@ -256,35 +246,29 @@ h2{
     body {
         font-size: 14px;
     }
-
     .zone {
         flex-direction: column;
         height: auto;
         padding: 2rem 1rem;
     }
-
     .zone a {
-        width: 80%;
+        max-width: 10%;
         height: 10rem;
         border-radius: 2rem;
         margin: 1rem 0;
     }
-
     .navbar {
         flex-direction: column;
         text-align: center;
         padding: 0.1rem;
     }
-
     .nav-left, .nav-right {
         justify-content: center;
         flex-wrap: wrap;
     }
-
     .nav-link {
         margin: 0.5rem;
     }
-
     .footer-content {
         flex-direction: column;
         text-align: center;
