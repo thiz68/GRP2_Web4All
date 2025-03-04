@@ -28,12 +28,12 @@ const mockstuds = [
     {
         id: 2,
         title: "GABUS Thibaud",
-        location:"Strasbourg",
+        location:"Basel",
         age: "19 ans",
         email:"thibaud.gabus@viacesi.fr",
         description: "Integer lacinia, nunc vel convallis lacinia, enim urna convallis magna, at commodo sem magna id nisi. Suspendisse pulvinar libero ac leo lobortis egestas.",
         skills: ["Compliance", "Audit", "BAC+5"],
-        stages: " En recherche",
+        stages: " Inactif ",
         logo: ""
     },
     {
