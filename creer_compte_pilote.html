@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html lang="fr"> 
+
+<head> 
+	<meta charset="utf-8">
+	<meta name="author" content="Clery G">
+	<link rel="stylesheet" href="./style.css">
+	<title>Lebonplan</title> 
+</head> 
+
+<body>
+
+	<header>
+
+        <img src="./logo.jpg" alt="logo entreprise" id="logo" class="center">
+        
+
+        <nav class="nav_bar">
+			<div class='nav_left'>
+				<a href="accueil.html">Accueil</a> | 
+				<a href="entreprises.html">Entreprises</a> | 
+				<a href="offres.html">Offres</a> | 
+				<a href="whishlist.html">Wishlist</a>
+			</div>
+			<div class="nav_right">
+                <a href="mon_profil.html">Mon profil</a> |
+				<a href="connexion.html" id="connexion_button">Connexion</a>
+			</div>
+		</nav>
+
+	</header>
+
+	<section class="principal">
+ 
+		<p class="titre">Creer un compte pilote</p>
+		
+		<article>
+
+
+			<p class="titre_2">Remplissez les informations du pilote</p>
+			
+			<form class="formulaire" method="GET" target="_self" action="./valid.html">
+
+				<label class="label" for="civ">CIVILITE</label>
+				<br>
+				<select class="select_box" name="civ">
+					<option class="option" value="">Madame</option>
+					<option class="option" value="">Monsieur</option>
+				</select>
+
+				<br><br>
+
+				<label class="label" for ="name">NOM</label>
+				<br>
+				<input class="input_box" type="text" value="" size="25" id="name" name="name" required></label>
+
+				<br><br>
+
+				<label class="label" for ="forname">PRENOM</label>
+				<br>
+				<input class="input_box" type="text" value="" size="25" id="forname" name="forname" required></label>
+
+				<br><br>
+
+				<label class="label" for ="email">COURRIEL</label>
+				<br>
+				<input class="input_box" type="email" value="" size="40" id="email" name="email" required></label>
+
+				<br><br>
+
+                
+				<label class="label" for ="password">MOT DE PASSE</label>
+				<br>
+				<input class="input_box" type="password" value="" size="40" id="password" name="password" required></label>
+
+				<br><br>
+
+                <label class="label" for ="password_verif">RENTRER A NOUVEAU LE MOT DE PASSE</label>
+				<br>
+				<input class="input_box" type="password" value="" size="40" id="password_verif" name="password_verif" required></label>
+
+				<br><br>
+
+                <button id="submit" type="submit" id="submit" onclick="fonction_verification_password(event)">CREER</button>
+				<button id="reset" type="reset" id="reset">REINITIALISER</button>
+
+                <br><br>
+			
+			</form>
+
+		</article>
+
+		<p class="details">En cliquant sur 'Creer', vous acceptez les 
+		<a href="cgu.html">CGU</a>
+
+	</section>
+
+
+	<footer>
+
+		&copy 2025 - Tous droits réservés
+
+	</footer>
+
+    <script src="./script.js"></script> 
+		 
+</body> 
+</html> 
