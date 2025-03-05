@@ -1,6 +1,6 @@
 //Variables globales
 let currentPage = 1;
-const itemsPerPage = 5;
+const itemsPerPage = 10;
 let allJobs = [];
 let filteredJobs = [];
 let searchParams = {
@@ -133,6 +133,66 @@ const mockJobs = [
         salary: "40000 - 50000 €/an",
         applicants: 14,
         logo: ""
+    },
+    {
+        "id": 11,
+        "title": "Ingénieur Sécurité des Systèmes d'Information",
+        "location": "Marseille",
+        "contract": "Salarié - Contrat à Durée Indéterminée",
+        "date": "19/01/2025",
+        "description": "Assurez la sécurité et la conformité des infrastructures IT de l'entreprise.",
+        "skills": ["CyberSécurité", "Pentest", "SIEM"],
+        "salary": "50000 - 65000 €/an",
+        "applicants": 6,
+        "logo": ""
+    },
+    {
+        "id": 12,
+        "title": "Consultant ERP - SAP",
+        "location": "Strasbourg",
+        "contract": "Salarié - Contrat à Durée Indéterminée",
+        "date": "18/01/2025",
+        "description": "Accompagnez nos clients dans l'intégration et l'optimisation de leurs solutions SAP.",
+        "skills": ["SAP", "ERP", "Gestion de projet"],
+        "salary": "48000 - 60000 €/an",
+        "applicants": 10,
+        "logo": ""
+    },
+    {
+        "id": 13,
+        "title": "Assistant Ressources Humaines (H/F)",
+        "location": "Nice",
+        "contract": "Stage (6 mois)",
+        "date": "17/01/2025",
+        "description": "Participez à la gestion administrative et au recrutement au sein de notre équipe RH.",
+        "skills": ["Recrutement", "Administration RH", "Gestion des talents"],
+        "salary": "900 €/mois",
+        "applicants": 13,
+        "logo": ""
+    },
+    {
+        "id": 14,
+        "title": "Chef de Projet IT",
+        "location": "Rennes",
+        "contract": "Salarié - Contrat à Durée Indéterminée",
+        "date": "16/01/2025",
+        "description": "Pilotez des projets IT stratégiques en collaboration avec les équipes métier.",
+        "skills": ["Gestion de projet", "Agile", "ITIL"],
+        "salary": "55000 - 65000 €/an",
+        "applicants": 11,
+        "logo": ""
+    },
+    {
+        "id": 15,
+        "title": "Développeur Mobile Android/iOS",
+        "location": "Montpellier",
+        "contract": "Salarié - Contrat à Durée Indéterminée",
+        "date": "15/01/2025",
+        "description": "Développez des applications mobiles performantes et ergonomiques.",
+        "skills": ["Android", "iOS", "Flutter"],
+        "salary": "42000 - 52000 €/an",
+        "applicants": 8,
+        "logo": ""
     }
 ];
 
@@ -225,8 +285,10 @@ function filterJobs() {
 
 //Màj nombre offres affichées
 function updateJobCount() {
+    const totalJobsCount = filteredJobs.length;
+
     const countElement = document.querySelector('.job-listings h2');
-    countElement.textContent = `${filteredJobs.length} sur ${allJobs.length} offres disponibles`;
+    countElement.textContent = `${totalJobsCount} offres disponibles`;
 }
 
 
