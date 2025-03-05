@@ -478,7 +478,6 @@ body {
 .footer {
     background-color: var(--white);
     padding: 2rem;
-    margin-top: 2rem;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
 }
 
@@ -488,6 +487,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
 }
 
 .footer-logo h2 {
