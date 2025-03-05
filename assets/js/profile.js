@@ -1,8 +1,8 @@
 //Variables globales
 let currentPage = 1;
 const itemsPerPage = 5;
-let allpilots = [];
-let filteredpilots = [];
+let allprofiles = [];
+let filteredprofiles = [];
 let searchParams = {
     query: '',
     location: '',
@@ -12,110 +12,30 @@ let lastScrollPosition = window.pageYOffset;
 let scrollThreshold = 100;
 
 //DONNEES DE TEST - SIMULATION D'UNE API
-const mockpilots = [
+const mockprofiles = [
     //Emplois de test
     {
         id: 1,
-        title: "ESSAID-FARHAT Amira",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in metus euismod, finibus massa a, tincidunt lorem.",
-        skills: ["Sys. Embarqués", "FrontEnd", "Leadership"],
-        applicants: 12,
+        title: "SZABLEWSKI Yanis",
+        email: "yanis.szablewski@viacesi.fr",
         logo: ""
     },
     {
         id: 2,
-        title: "SCHNEIDER Etienne",
-        description: "Integer lacinia, nunc vel convallis lacinia, enim urna convallis magna, at commodo sem magna id nisi. Suspendisse pulvinar libero ac leo lobortis egestas.",
-        skills: ["Apache", "BackEnd", "Java"],
-        applicants: 8,
+        title: "GABUS Thibaud",
+        email: "thibaud.gabus@viacesi.fr",
         logo: ""
     },
     {
         id: 3,
-        title: "BELTZ Herve",
-        description: "Mauris tincidunt quam ut lacus feugiat, ut volutpat enim varius. Nunc et sapien nec metus semper tincidunt at vel turpis.",
-        skills: ["Alternance", "Mathematic", "Physic"],
-        applicants: 5,
+        title: "WEYANDT Jules",
+        email: "jules.weyandt@viacesi.fr",
         logo: ""
     },
     {
         id: 4,
-        title: "KAHLOUCHE Faouzi",
-        description: "Etiam euismod libero sit amet nisl finibus, vel fermentum arcu aliquam. Suspendisse potenti.",
-        skills: ["Sys. Embarqués", "Bool", "Robotique"],
-        applicants: 15,
-        logo: ""
-    },
-    {
-        id: 5,
-        title: "Développeur Full Stack JavaScript (H/F)",
-        location: "Lyon",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "24/1/2025",
-        description: "Sed laoreet diam at metus eleifend, id tincidunt nisi vulputate. Nam varius lacus id nulla hendrerit, ac euismod odio laoreet.",
-        skills: ["JavaScript", "React", "Node.js"],
-        salary: "45000 - 55000 €/an",
-        applicants: 23,
-        logo: ""
-    },
-    {
-        id: 6,
-        title: "Data Scientist Senior",
-        location: "Paris",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "23/1/2025",
-        description: "Nous recherchons un Data Scientist expérimenté pour analyser des données complexes et développer des modèles prédictifs.",
-        skills: ["Python", "Machine Learning", "SQL"],
-        salary: "55000 - 70000 €/an",
-        applicants: 18,
-        logo: ""
-    },
-    {
-        id: 7,
-        title: "UX/UI Designer",
-        location: "Bordeaux",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "22/1/2025",
-        description: "Créez des interfaces utilisateur intuitives et esthétiques pour nos applications web et mobiles.",
-        skills: ["Figma", "Adobe XD", "Prototypage"],
-        salary: "38000 - 45000 €/an",
-        applicants: 9,
-        logo: ""
-    },
-    {
-        id: 8,
-        title: "Ingénieur DevOps",
-        location: "Nantes",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "22/1/2025",
-        description: "Optimisez nos processus de déploiement et maintenez notre infrastructure cloud.",
-        skills: ["Docker", "Kubernetes", "AWS"],
-        salary: "48000 - 60000 €/an",
-        applicants: 7,
-        logo: ""
-    },
-    {
-        id: 9,
-        title: "Chargé de communication digitale",
-        location: "Lille",
-        contract: "Stage (6 mois)",
-        date: "21/1/2025",
-        description: "Participez à l'élaboration et à la mise en œuvre de notre stratégie de communication digitale.",
-        skills: ["Social Media", "Rédaction Web", "Stratégie Digitale"],
-        salary: "1000 €/mois",
-        applicants: 21,
-        logo: ""
-    },
-    {
-        id: 10,
-        title: "Développeur Front-End React",
-        location: "Toulouse",
-        contract: "Salarié - Contrat à Durée Indéterminée",
-        date: "20/1/2025",
-        description: "Rejoignez notre équipe pour développer des interfaces modernes et réactives.",
-        skills: ["React", "TypeScript", "CSS"],
-        salary: "40000 - 50000 €/an",
-        applicants: 14,
+        title: "GARDES Cléry",
+        email: "clery.gardes@viacesi.fr",
         logo: ""
     }
 ];
@@ -125,7 +45,7 @@ const mockpilots = [
 //Init chargement page
 document.addEventListener("DOMContentLoaded", function() {
     //Charger les données (sim)
-    fetchpilots();
+    fetchprofiles();
 
     //EventListeners
     setupEventListeners();
@@ -167,82 +87,82 @@ function setupEventListeners() {
 // ========= Fonctions Gestion Données =========
 
 //Sim récupération offres (remplacer par appel API)
-function fetchpilots() {
+function fetchprofiles() {
     setTimeout(() => {
-        allpilots = [...mockpilots];
-        filteredpilots = [...allpilots];
-        updatepilotCount();
-        renderpilots();
+        allprofiles = [...mockprofiles];
+        filteredprofiles = [...allprofiles];
+        updateprofileCount();
+        renderprofiles();
         renderPagination();
     }, 300);
 }
 
 /*
 A remplacer par :
-async function fetchpilotsFromAPI(params = {}) {
+async function fetchprofilesFromAPI(params = {}) {
 Code d'Appel API
 }
 */
 
 //Filtrage des offres en fonction de la recherche
-function filterpilots() {
+function filterprofiles() {
     const query = searchParams.query.toLowerCase();
     const location = searchParams.location.toLowerCase();
 
-    filteredpilots = allpilots.filter(pilot => {
+    filteredprofiles = allprofiles.filter(profile => {
         const matchesQuery = !query ||
-            pilot.title.toLowerCase().includes(query) ||
-            pilot.description.toLowerCase().includes(query) ||
-            pilot.skills.some(skill => skill.toLowerCase().includes(query));
+            profile.title.toLowerCase().includes(query) ||
+            profile.description.toLowerCase().includes(query) ||
+            profile.skills.some(skill => skill.toLowerCase().includes(query));
 
         const matchesLocation = !location ||
-            pilot.location.toLowerCase().includes(location);
+            profile.location.toLowerCase().includes(location);
 
         return matchesQuery && matchesLocation;
     });
 
     currentPage = 1; //Réinitialiser à la première page après app filtre
-    updatepilotCount();
-    renderpilots();
+    updateprofileCount();
+    renderprofiles();
     renderPagination();
 }
 
 //Màj nombre offres affichées
-function updatepilotCount() {
-    const countElement = document.querySelector('.pilot-listings h2');
-    countElement.textContent = `${filteredpilots.length} sur ${allpilots.length} offres disponibles`;
+function updateprofileCount() {
+    const countElement = document.querySelector('.profile-listings h2');
+    countElement.textContent = `${filteredprofiles.length} sur ${allprofiles.length} offres disponibles`;
 }
 
 
 // ========= Fonctions rendu =========
 
 //Offres sur page actu
-function renderpilots() {
-    const pilotListings = document.querySelector('.pilot-listings');
+function renderprofiles() {
+    const profileListings = document.querySelector('.profile-listings');
 
     //Suppr offres actu sauf titre et pagination
-    const titleElement = pilotListings.querySelector('h2');
-    const paginationElement = pilotListings.querySelector('.pagination');
+    const titleElement = profileListings.querySelector('h2');
+    const paginationElement = profileListings.querySelector('.pagination');
 
-    pilotListings.innerHTML = '';
-    pilotListings.appendChild(titleElement);
+    profileListings.innerHTML = '';
+    profileListings.appendChild(titleElement);
 
     //Calcul offre afficher page actu
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, filteredpilots.length);
-    const pilotsToDisplay = filteredpilots.slice(startIndex, endIndex);
+    const endIndex = Math.min(startIndex + itemsPerPage, filteredprofiles.length);
+    const profilesToDisplay = filteredprofiles.slice(startIndex, endIndex);
 
     //Création + ajout carte offres
-    pilotsToDisplay.forEach(pilot => {
-        pilotListings.appendChild(createpilotCard(pilot));
+    profilesToDisplay.forEach(profile => {
+        profileListings.appendChild(createprofileCard(profile));
     });
 
     //Ajout pagination
     if (paginationElement) {
-        pilotListings.appendChild(paginationElement);
+        profileListings.appendChild(paginationElement);
     } else {
         const newPagination = createPaginationElement();
-        pilotListings.appendChild(newPagination);
+        profileListings.appendChild(newPagination);
     }
 }
 //Fonction nettoyage entrées utilisateur
@@ -276,48 +196,38 @@ function sanitizeInput(e) {
 }
 
 //Création carte offre
-function createpilotCard(pilot) {
-    const pilotCard = document.createElement("div");
-    pilotCard.className = 'pilot-card';
-    pilotCard.setAttribute('data-pilot-id', pilot.id);
+function createprofileCard(profile) {
+    const profileCard = document.createElement("div");
+    profileCard.className = 'profile-card';
+    profileCard.setAttribute('data-profile-id', profile.id);
 
     // Échapper les données pour éviter les attaques XSS
 
-    const safeTitle = escapeHtml(pilot.title);
-    const safeLocation = escapeHtml(pilot.location);
-    const safeContract = escapeHtml(pilot.contract);
-    const safeDate = escapeHtml(pilot.date);
-    const safeDescription = escapeHtml(pilot.description);
-    const safeSalary = escapeHtml(pilot.salary);
+    const safeTitle = escapeHtml(profile.title);
+    const safeEmail = escapeHtml(profile.email);
 
-    pilotCard.innerHTML = `
-        <div class="pilot-content">
-            <div class="pilot-info">
-                <div class="company-logo">
-                    <img src="${pilot.logo || 'assets/images/default-logo.png'}" alt="Logo entreprise" onserror="this.src='assets/images/default-logo.png'">
+    profileCard.innerHTML = `
+        <div class="profile-container">
+            <div class="header">
+                <div class="Profile-picture">
+                    <img src="${profile.logo || 'assets/images/default-logo.png'}" alt="Logo entreprise" onserror="this.src='assets/images/default-logo.png'">
+                <h2>${safeTitle}</h2>
                 </div>
-                <div class="pilot-details">
-                    <h3 class="pilot-title">${safeTitle}</h3>
-                    <p class="pilot-description">${safeDescription}</p>
-                    <div class="pilot-skills">
-                        ${pilot.skills.map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('')}
-                    </div>
+                <div class="info">
+                    <p>${safeEmail}</p>
                 </div>
-            </div>
-            <div class="pilot-actions">
-                <a href="InspecterP.html?id=${pilot.id}" class="view-more-btn">Inspecter</a>
             </div>
         </div>
     `;
 
     //EventListener "VoirPlus"
-    const viewMoreBtn = pilotCard.querySelector('.view-more-btn');
+    const viewMoreBtn = profileCard.querySelector('.view-more-btn');
     viewMoreBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        viewpilotDetails(pilot.id);
+        viewprofileDetails(profile.id);
     });
 
-    return pilotCard;
+    return profileCard;
 }
 
 // Fonction pour échapper le HTML
@@ -344,7 +254,7 @@ function createPaginationElement() {
 //Màj pagination
 function renderPagination() {
     const pagination = document.querySelector('.pagination');
-    const totalPages = Math.ceil(filteredpilots.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredprofiles.length / itemsPerPage);
 
     pagination.innerHTML = '';
 
@@ -432,7 +342,7 @@ function handleSearch() {
     updateUrlParams();
 
     //Filtrage offres
-    filterpilots();
+    filterprofiles();
 }
 
 //Gestion navigation pagination
@@ -448,7 +358,7 @@ function handlePagination(e) {
                 currentPage--;
             }
         } else if (page === 'next') {
-            const totalPages = Math.ceil(filteredpilots.length / itemsPerPage);
+            const totalPages = Math.ceil(filteredprofiles.length / itemsPerPage);
             if (currentPage < totalPages) {
                 currentPage++;
             }
@@ -461,21 +371,21 @@ function handlePagination(e) {
         updateUrlParams();
 
         //Màj affichage
-        renderpilots();
+        renderprofiles();
         renderPagination();
 
         //Défilage vers le haut
-        document.querySelector('.pilot-listings').scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('.profile-listings').scrollIntoView({ behavior: 'smooth' });
     }
 }
 
 //Affichage détails offre
-function viewpilotDetails(pilotId) {
+function viewprofileDetails(profileId) {
     //A IMPLEMENTER : Redirection vers la page de détails ou affichage modal
-    console.log(`Voir détails de l'offre ${pilotId}`);
+    console.log(`Voir détails de l'offre ${profileId}`);
 
     //A IMPLEMENTER : Redirection vers une page de détails
-    window.location.href = `details.html?id=${pilotId}`;
+    window.location.href = `details.html?id=${profileId}`;
 }
 
 // ========= Gestion URL =========
@@ -502,7 +412,7 @@ function parseUrlParams() {
 
     // Si paramètres, alors recherche
     if (searchParams.query || searchParams.location) {
-        filterpilots();
+        filterprofiles();
     }
 }
 
@@ -582,7 +492,7 @@ function createBackToTopButton() {
 // ========= A IMPLEMENTER : Interaction API =========
 
 //Récupération offres depuis API
-async function fetchpilotsFromAPI(params = {}) {
+async function fetchprofilesFromAPI(params = {}) {
     try {
         //Construction URL avec params
         const queryParams = new URLSearchParams();
@@ -590,7 +500,7 @@ async function fetchpilotsFromAPI(params = {}) {
         if (params.location) queryParams.set('location', params.location);
         if (params.page) queryParams.set('page', params.page);
 
-        const apiUrl = `/api/pilots?${queryParams.toString()}`;
+        const apiUrl = `/api/profiles?${queryParams.toString()}`;
 
         //Affichage indicateur chargement
         showLoadingState();
@@ -605,12 +515,12 @@ async function fetchpilotsFromAPI(params = {}) {
         const data = await response.json();
 
         //Màj données
-        allpilots = data.pilots || [];
-        filteredpilots = [...allpilots];
+        allprofiles = data.profiles || [];
+        filteredprofiles = [...allprofiles];
 
         //Màj affichage
-        updatepilotCount();
-        renderpilots();
+        updateprofileCount();
+        renderprofiles();
         renderPagination();
     } catch (error) {
         console.error("Erreur lors de la récupération des offres : ", error);
@@ -628,7 +538,7 @@ function showLoadingState() {
     loadingElement.className = 'loading-indicator'
     loadingElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...\''
 
-    document.querySelector('.pilot-listings').appendChild(loadingElement);
+    document.querySelector('.profile-listings').appendChild(loadingElement);
 }
 
 //Masquage l'indicateur de chargement
@@ -646,7 +556,7 @@ function showErrorMessage(message) {
     errorElement.className = 'error-message';
     errorElement.textContent = message;
 
-    document.querySelector('.pilot-listings').appendChild(errorElement);
+    document.querySelector('.profile-listings').appendChild(errorElement);
 
     // Masquer le message après 5 secondes
     setTimeout(() => {

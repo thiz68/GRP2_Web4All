@@ -87,86 +87,6 @@ h2{
     border-radius: 5px;
 }
 
-
-
-.zone{
-    gap: 1rem; /* Ajoute de l’espace entre les éléments */
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100vh;
-    color: white;
-
-    .section-title{
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 5rem;
-    }
-    p{
-        font-size: 1rem;
-        font-weight: bold;
-    }
-}
-.zone a {
-    flex: 1;
-    text-decoration: none; /* Supprime le soulignement */
-    color: inherit; /* Utilise la couleur du texte parent */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 7rem;
-    text-align: center;
-    width: 40rem;
-    min-width: 28rem;
-    max-width: 45rem;
-    padding: 2rem;
-    overflow: hidden; /* Empêche les images de sortir */
-    height: auto; /* Il faut que toute les images/icons faissent la même taille */
-    margin: 2rem; /* Ajoute un espace autour de chaque rectangle */
-    transition: width 0.4s ease, height 0.4s ease, border-radius 0.4s ease;
-    transition: background-color var(--transition-default), color var(--transition-default);
-}
-
-.zone a img {
-    max-width: 45rem;
-    height: auto;
-    max-height: 200px; /* Ajuste la hauteur max */
-    object-fit: cover; /* Ajuste bien l’image */
-    border-radius: 10rem;
-}
-
-.zone a:hover {
-    text-decoration: none; /* Supprime le soulignement au survol */
-    color: inherit; /* Utilise la couleur du texte parent au survol */
-}
-.offer{
-    background-color: #ab1bee;
-    cursor:grab;
-}
-.offer:hover{
-    background-color: #ae789b;
-}
-
-.entrep{
-    background-color: #2a083a;
-    cursor:grab;
-}
-.entrep:hover{
-    background-color: #501d67;
-}
-
-.WishList{
-    background-color: #591877;
-    cursor:grab;
-}
-.WishList:hover{
-    background-color: #8340a2;
-}
-
-
 /* Navbar Styles */
 .navbar {
     display: flex;
@@ -250,6 +170,7 @@ h2{
 
 /* Footer Styles */
 .footer {
+    margin-top: auto;
     background-color: var(--white);
     padding: 2rem;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
