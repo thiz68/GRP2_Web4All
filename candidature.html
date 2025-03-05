@@ -13,14 +13,15 @@
 <!-- Navbar -->
 <nav class="navbar">
     <div class="nav-left">
-        <a href="offres.html" class="nav-link pending">Accueil</a>
-        <a href="#" class="nav-link">Mentions légales</a>
+        <a href="HomePage.html" class="nav-link">Accueil</a>
+        <a href="wishlist.html" class="nav-link">Wishlist</a>
+        <a href="mesoffres.html" class="nav-link">Mes Offres</a>
     </div>
     <div class="nav-logo">
         <h1>Web4All</h1>
     </div>
     <div class="nav-right">
-        <a href="#" class="nav-button">Mon compte</a>
+        <a href="profil.html" class="nav-button">Mon compte</a>
     </div>
 </nav>
 
@@ -29,7 +30,7 @@
     <div class="container">
         <!-- Breadcrumb -->
         <div class="breadcrumb">
-            <a href="offres.html">Accueil</a><i class="fas fa-chevron-right"></i> <span id="breadcrumb-title">Détail de l'offre</span>
+            <a href="offres.html">Liste des offres</a><i class="fas fa-chevron-right"></i> <span id="breadcrumb-title">Détail de l'offre</span>
         </div>
 
         <!-- Job Details Section -->
@@ -74,7 +75,7 @@
                         <div class="job-section">
                             <h2 class="section-title">Compétences requises</h2>
                             <div id="job-skills" class="job-skills">
-                                <!-- Skills will be added here -->
+                                <!-- Skills -->
                             </div>
                         </div>
 
@@ -101,7 +102,7 @@
                 <div class="error-message">
                     <i class="fas fa-exclamation-triangle"></i>
                     <p>Une erreur s'est produite lors du chargement de l'offre.</p>
-                    <a href="offres.html" class="error-button">Retour à l'accueil</a>
+                    <a href="HomePage.html" class="error-button">Retour à l'accueil</a>
                 </div>
             </div>
         </section>
@@ -153,7 +154,7 @@
 
             <div id="success-message" class="success-message" style="display: none;">
                 <i class="fas fa-check-circle"></i>
-                <h3>Candidature envoyée avec succès!</h3>
+                <h3>Candidature envoyée avec succès !</h3>
                 <p>Votre candidature a bien été enregistrée. Vous recevrez une confirmation par email.</p>
                 <button class="back-home-btn" onclick="window.location.href='offres.html'">Retour à l'accueil</button>
             </div>
@@ -169,6 +170,7 @@
         </div>
         <div class="footer-copyright">
             <p>&copy; 2025 Web4All. Tous droits réservés.</p>
+            <a href="mentionslegales.html" class="nav-link">Mentions Légales</a>
         </div>
     </div>
 </footer>

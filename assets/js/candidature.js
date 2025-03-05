@@ -17,7 +17,7 @@ const mockJobs = [
         skills: ["Management", "BCM", "Leadership", "Communication", "Anglais courant"],
         salary: "45000 - 55000 €/an",
         applicants: 12,
-        logo: ""
+        logo: "assets/images/Google__G__logo.svg.png"
     },
     {
         id: 2,
