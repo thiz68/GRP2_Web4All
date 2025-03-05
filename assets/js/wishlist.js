@@ -451,7 +451,7 @@ function viewJobDetails(jobId) {
     console.log(`Voir détails de l'offre ${jobId}`);
 
     //A IMPLEMENTER : Redirection vers une page de détails
-    window.location.href = `details.html?id=${jobId}`;
+    window.location.href = `candidature.html?id=${jobId}`;
 }
 
 // ========= Gestion URL =========
